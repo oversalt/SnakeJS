@@ -1,6 +1,6 @@
 # SnakeJS
 ## Purpose ##
-Explore and practice JavaScript. NO FRAMEWORKS | **JUST PLAIN vanilla JS**
+Explore and practice JavaScript. We are going to use PhaserIO to build this game. 
 
 ## How to Contribute ##
 1. Go to the Projects tab
