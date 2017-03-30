@@ -9,6 +9,7 @@ function preload() {
 
 var player;
 var cursors;
+var horizontal;
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -16,31 +17,42 @@ function create() {
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
     cursors = game.input.keyboard.createCursorKeys();
+    horizontal = false;
 }
 
-function update() {
-    // //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
-    player.body.velocity.y= 0;
-
+function update() { 
+    //The velocity values will be changed later on for dynamic
+    //  increase of difficulty
     if (cursors.left.isDown)
     {
-        player.body.velocity.x = -100
-        player.x -= 4;
+        player.body.velocity.x = -50
+        horizontal = true; 
+        player.x -= 2;
     }
     else if (cursors.right.isDown)
     {
-        player.body.velocity.x = 100
-        player.x += 4;
+        player.body.velocity.x = 50
+        player.body.velocity.y= 0;
+        horizontal = true; 
+        player.x += 2;
     }
     else if (cursors.up.isDown)
     {
-        player.body.velocity.y = -100
-        player.y -= 4;
+        player.body.velocity.y = -50
+        horizontal = false; 
+        player.y -= 2;
     }
     else if (cursors.down.isDown)
     {
-        player.body.velocity.y = 100
-        player.y += 4;
+        player.body.velocity.y = 50
+        horizontal = false; 
+        player.y += 2;
+    }
+
+    if( horizontal ){
+        player.body.velocity.y= 0;
+    }else
+    {
+        player.body.velocity.x= 0;
     }
 }
