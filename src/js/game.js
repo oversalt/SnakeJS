@@ -10,12 +10,19 @@ function preload() {
 var player;
 var cursors;
 var horizontal;
+var food; 
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     player = game.add.sprite(32, game.world.height - 150, 'snake_block');
+    food = game.add.sprite(50, 50, 'snake_block');
     game.physics.arcade.enable(player);
+    game.physics.arcade.enable(food);
+
     player.body.collideWorldBounds = true;
+    food.body.collideWorldBounds = true; 
+    food.body.immovable = true; 
+    
     cursors = game.input.keyboard.createCursorKeys();
     horizontal = false;
 }
@@ -23,6 +30,9 @@ function create() {
 function update() { 
     //The velocity values will be changed later on for dynamic
     //  increase of difficulty
+    var hit_food = game.physics.arcade.collide(player, food);
+    
+
     if (cursors.left.isDown)
     {
         player.body.velocity.x = -50
@@ -54,5 +64,12 @@ function update() {
     }else
     {
         player.body.velocity.x= 0;
+    }
+
+    if(hit_food){
+        var new_x = Math.floor((Math.random() * game.world.width-50) + 1);
+        var new_y = Math.floor((Math.random() * game.world.height-50) + 1);
+        food.x = new_x; 
+        food.y = new_y;
     }
 }
