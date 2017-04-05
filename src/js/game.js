@@ -30,8 +30,7 @@ function create() {
 function update() { 
     //The velocity values will be changed later on for dynamic
     //  increase of difficulty
-    var hit_food = game.physics.arcade.collide(player, food);
-    
+
 
     if (cursors.left.isDown)
     {
@@ -66,10 +65,15 @@ function update() {
         player.body.velocity.x= 0;
     }
 
-    if(hit_food){
-        var new_x = Math.floor((Math.random() * game.world.width-50) + 1);
-        var new_y = Math.floor((Math.random() * game.world.height-50) + 1);
-        food.x = new_x; 
-        food.y = new_y;
-    }
+
+
+    var hit_food = game.physics.arcade.overlap(player, food, move_food, null, this); 
+    
+}
+
+function move_food(){
+    var new_x = Math.floor((Math.random() * game.world.width-50) + 1);
+    var new_y = Math.floor((Math.random() * game.world.height-50) + 1);
+    food.x = new_x; 
+    food.y = new_y;
 }
