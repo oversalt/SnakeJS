@@ -11,8 +11,15 @@ var player;
 var cursors;
 var horizontal;
 var food; 
+var tail; 
+var score; 
+var refresh_rate = 0; 
+var interval; 
 
 function create() {
+    interval = setInterval(display_tail, 200); 
+    tail = []; // stores an array of key value pair of x & y coordinates 
+    score = 0; //initialize the base score 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     player = game.add.sprite(32, game.world.height - 150, 'snake_block');
     food = game.add.sprite(50, 50, 'snake_block');
@@ -30,7 +37,6 @@ function create() {
 function update() { 
     //The velocity values will be changed later on for dynamic
     //  increase of difficulty
-
 
     if (cursors.left.isDown)
     {
@@ -76,4 +82,18 @@ function move_food(){
     var new_y = Math.floor((Math.random() * game.world.height-50) + 1);
     food.x = new_x; 
     food.y = new_y;
+    score++; 
 }
+
+
+
+function display_tail(){
+    // Do something about the tail 
+    if( tail.length > score){ // if the size of the tail is greater score, pop the end of the array
+        tail.pop(); 
+    }
+    tail.splice(0, 0, {x: player.x, y: player.y});  // keep on updating the points traveled by the sanake
+
+    
+}
+
