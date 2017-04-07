@@ -15,9 +15,13 @@ var tail;
 var score; 
 var refresh_rate = 0; 
 var interval; 
+var tail_sprites; 
+var xy; 
 
 function create() {
-    interval = setInterval(display_tail, 200); 
+    tail_sprites = game.add.group();
+    interval = setInterval(display_tail, 50); 
+    xy = {x: 0, y: 0};
     tail = []; // stores an array of key value pair of x & y coordinates 
     score = 0; //initialize the base score 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -40,26 +44,26 @@ function update() {
 
     if (cursors.left.isDown)
     {
-        player.body.velocity.x = -50
+        player.body.velocity.x = -100
         horizontal = true; 
         player.x -= 2;
     }
     else if (cursors.right.isDown)
     {
-        player.body.velocity.x = 50
+        player.body.velocity.x = 100
         player.body.velocity.y= 0;
         horizontal = true; 
         player.x += 2;
     }
     else if (cursors.up.isDown)
     {
-        player.body.velocity.y = -50
+        player.body.velocity.y = -100
         horizontal = false; 
         player.y -= 2;
     }
     else if (cursors.down.isDown)
     {
-        player.body.velocity.y = 50
+        player.body.velocity.y = 100
         horizontal = false; 
         player.y += 2;
     }
@@ -71,10 +75,8 @@ function update() {
         player.body.velocity.x= 0;
     }
 
-
-
     var hit_food = game.physics.arcade.overlap(player, food, move_food, null, this); 
-    
+
 }
 
 function move_food(){
@@ -83,17 +85,34 @@ function move_food(){
     food.x = new_x; 
     food.y = new_y;
     score++; 
+    // add a taile graphics
+    tail_sprites.create(0,0, 'snake_block');
 }
 
 
 
-function display_tail(){
+function display_tail(horizontal){
+
+    var tempxy = {x: player.x, y: player.y};
+    if( xy.x - player.x < 50 || xy.y - player.y < 50){
     // Do something about the tail 
     if( tail.length > score){ // if the size of the tail is greater score, pop the end of the array
         tail.pop(); 
     }
     tail.splice(0, 0, {x: player.x, y: player.y});  // keep on updating the points traveled by the sanake
 
-    
+    // move the tail
+    if( tail_sprites.length > 0)
+    {
+        var index = 0; 
+        tail_sprites.forEach(function(element) {
+            index++; 
+            element.x = tail[index].x; 
+            element.y = tail[index].y; 
+        }, this);
+    }
+    xy = tempxy;
+    }
+
 }
 
