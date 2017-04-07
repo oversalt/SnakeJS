@@ -86,7 +86,7 @@ function move_food(){
     food.y = new_y;
     score++; 
     // add a taile graphics
-    tail_sprites.create(0,0, 'snake_block');
+    tail_sprites.create(player.x,player.y, 'snake_block');
 }
 
 
